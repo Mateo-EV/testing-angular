@@ -14,9 +14,13 @@ import {
 } from '@angular/common/http';
 import { PageUnauthorizedComponent } from './core/components/page-unauthorized/page-unauthorized.component';
 import { StoreModule } from '@ngrx/store';
-import { itemImageReducer } from './ngrx/item.reducers';
+// import { itemImageReducer } from './ngrx/item.reducers';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -25,13 +29,13 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     PageUnauthorizedComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatIconModule,
     HttpClientModule,
-    StoreModule.forRoot({ items: itemImageReducer }),
+    // StoreModule.forRoot({ items: itemImageReducer }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -40,12 +44,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
       },
     }),
   ],
-  providers: [
-  ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
-
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
